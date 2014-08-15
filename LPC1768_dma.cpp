@@ -9,7 +9,7 @@
   */
 void DMA_init(LPC_GPDMACH_TypeDef* DMAy_Channelx, DMA_InitTypeDef* DMA_InitStruct)
 {
-//    uint32_t tmpreg = 0;
+    uint32_t tmpreg = 0;
 
     
   /* clear the pending interrupts on the channel to be used by writing to the DMACIntTCClear and DMACIntErrClear register. */  
@@ -62,7 +62,7 @@ void DMA_init(LPC_GPDMACH_TypeDef* DMAy_Channelx, DMA_InitTypeDef* DMA_InitStruc
     DMAy_Channelx->DMACCSrcAddr = DMA_InitStruct->DMA_SrcAddr;
     DMAy_Channelx->DMACCDestAddr = DMA_InitStruct->DMA_DestAddr;
     //DMAy_Channelx->DMACCLLI = DMA_InitStruct->LLI->next; //undo
-    DMAy_Channelx->DMACCControl |= (DMA_InitStruct->DMA_TransSize<<DMA_CCxControl_TransferSize_Pos) |
+    DMAy_Channelx->DMACCControl |= (DMA_InitStruct->DMA_TransferSize<<DMA_CCxControl_TransferSize_Pos) |
                                   (DMA_InitStruct->DMA_SrcBurst<<DMA_CCxControl_SBSize_Pos)  |
                                   (DMA_InitStruct->DMA_DestBurst<<DMA_CCxControl_DBSize_Pos) |
                                   (DMA_InitStruct->DMA_SrcWidth<<DMA_CCxControl_SWidth_Pos)  |
@@ -92,7 +92,7 @@ void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct)
     DMA_InitStruct->DMA_DestAddr=0; 
     DMA_InitStruct->DMA_SrcAddr=0;    
     //DMA_InitStruct->LLI;//undo
-    DMA_InitStruct->DMA_TransSize=0;
+    DMA_InitStruct->DMA_TransferSize=0;
     DMA_InitStruct->DMA_SrcBurst=0; 
     DMA_InitStruct->DMA_DestBurst=0;
     DMA_InitStruct->DMA_SrcWidth=0;
@@ -158,7 +158,8 @@ void DMA_ITConfig (LPC_GPDMACH_TypeDef* DMAy_Channelx, uint32_t DMA_IT, Function
          /*mask the selected DMA interrupts*/
           if(DMA_IT == DMA_ITC )
         {
-            DMAy_Channelx->DMACCConfig &= ~(1 <<DMA_CCxConfig_ITC_Pos);
+            DMAy_Channelx->DMACCConfig &= ~(1ul <<DMA_CCxConfig_ITC_Pos);
+            DMAy_Channelx->DMACCControl &= ~(1ul <<DMA_CCxControl_I_Pos);
         } 
         else if (DMA_IT == DMA_IE)
         {
@@ -219,4 +220,11 @@ uint32_t DMA_EnabledChannels(void){
     
     return (LPC_GPDMA->DMACEnbldChns & 0xff);
     
+}
+
+bool DMA_ChannelActive (LPC_GPDMACH_TypeDef* DMAy_Channelx){
+    if( DMAy_Channelx->DMACCConfig && 1<<DMA_CCxConfig_A_Pos) 
+      return 1;
+    else
+      return 0;   
 }

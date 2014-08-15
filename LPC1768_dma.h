@@ -43,7 +43,7 @@ typedef struct
     uint32_t DMA_DestAddr; /*!< Specifies the destination base address for DMAy Channelx. */
     uint32_t DMA_SrcAddr;     /*!< Specifies the source base address for DMAy Channelx. */
 //    DMA_LLI LLI; /UNDO *!< Specifies the next linked item   */
-    uint32_t DMA_TransSize;/*!< Specifies the source  transfer size    */
+    uint32_t DMA_TransferSize;/*!< Specifies the source  transfer size    */
     uint32_t DMA_SrcBurst; /*!< Specifies the source  burst size    */
     uint32_t DMA_DestBurst; /*!< Specifies the destination burst size   */
     uint32_t DMA_SrcWidth; /*!< Specifies the source transfer width   */
@@ -63,3 +63,12 @@ typedef struct
 
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
 typedef enum {COUNTER, ERR} DMA_IT;
+
+
+void DMA_init(LPC_GPDMACH_TypeDef* DMAy_Channelx, DMA_InitTypeDef* DMA_InitStruct);
+void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct);
+void DMA_Cmd(LPC_GPDMACH_TypeDef*  DMAy_Channelx, FunctionalState NewState);
+void DMA_ITConfig (LPC_GPDMACH_TypeDef* DMAy_Channelx, uint32_t DMA_IT, FunctionalState NewState);
+void DMA_ClearITPendingBit(LPC_GPDMACH_TypeDef* DMAy_Channelx, uint32_t DMA_IT);
+uint32_t DMA_EnabledChannels(void);
+bool DMA_ChannelActive (LPC_GPDMACH_TypeDef* DMAy_Channelx);
