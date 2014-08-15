@@ -1,4 +1,6 @@
-#ifdef TARGET_LPC1768
+
+
+#include "mbed.h"
 /** 
   * @brief  DMA Init structure definition
   */
@@ -23,14 +25,24 @@
 #define DMA_CCxConfig_A_Pos 17
 #define DMA_CCxConfig_H_Pos 18
 
+/*DMA Interrupt*/
+#define DMA_IE                        ((uint32_t)0x00004000)
+#define DMA_ITC                       ((uint32_t)0x00008000) 
 
-
+typedef struct
+{
+    uint32_t DestAddr;
+    uint32_t SrcAddr;
+    uint32_t next;
+    uint32_t control;
+    
+}DMA_LLI;
 
 typedef struct
 {
     uint32_t DMA_DestAddr; /*!< Specifies the destination base address for DMAy Channelx. */
     uint32_t DMA_SrcAddr;     /*!< Specifies the source base address for DMAy Channelx. */
-    DMA_LLI LLI; /*!< Specifies the next linked item   */
+//    DMA_LLI LLI; /UNDO *!< Specifies the next linked item   */
     uint32_t DMA_TransSize;/*!< Specifies the source  transfer size    */
     uint32_t DMA_SrcBurst; /*!< Specifies the source  burst size    */
     uint32_t DMA_DestBurst; /*!< Specifies the destination burst size   */
@@ -47,14 +59,7 @@ typedef struct
 
 }DMA_InitTypeDef;
 
-typedef struct
-{
-    uint32_t DestAddr;
-    uint32_t SrcAddr;
-    uint32_t next;
-    uint32_t control;
-    
-}DMA_LLI;
+
 
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
-#endif
+typedef enum {COUNTER, ERR} DMA_IT;
