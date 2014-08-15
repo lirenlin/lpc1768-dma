@@ -9,7 +9,7 @@
   */
 void DMA_init(LPC_GPDMACH_TypeDef* DMAy_Channelx, DMA_InitTypeDef* DMA_InitStruct)
 {
-    uint32_t tmpreg = 0;
+//    uint32_t tmpreg = 0;
 
     
   /* clear the pending interrupts on the channel to be used by writing to the DMACIntTCClear and DMACIntErrClear register. */  
