@@ -103,7 +103,7 @@ void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct)
     
     DMA_InitStruct->DMA_SrcPeripheral=0;
     DMA_InitStruct->DMA_DestPeripheral=0;
-    DMA_InitStruct->DMA_TransferType=0;       
+    DMA_InitStruct->DMA_TransferType=M2M;       
 }
 
 
