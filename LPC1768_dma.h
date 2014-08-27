@@ -30,6 +30,8 @@
 #define DMA_IE                        ((uint32_t)0x00004000)
 #define DMA_ITC                       ((uint32_t)0x00008000) 
 
+#define channel_num 8
+
 typedef enum
 {
     M2M = 0x00,
@@ -57,9 +59,9 @@ typedef struct
     uint32_t DMA_DestBurst; /*!< Specifies the destination burst size   */
     uint32_t DMA_SrcWidth; /*!< Specifies the source transfer width   */
     uint32_t DMA_DestWidth; /*!< Specifies the destination transfer width   */
-    uint32_t DMA_SrcInc;  /*!< Specifies whether the source is incremented or not */
-    uint32_t DMA_DestInc; /*!< Specifies whether the destination is incremented or not */
-    uint32_t DMA_TermInt; /*!< Specifies whether the terminal count interrupt enabled or not */
+    bool DMA_SrcInc;  /*!< Specifies whether the source is incremented or not */
+    bool DMA_DestInc; /*!< Specifies whether the destination is incremented or not */
+    bool DMA_TermInt; /*!< Specifies whether the terminal count interrupt enabled or not */
     
     /*!< Specifies the features set by channel config register */
     uint32_t  DMA_SrcPeripheral;
@@ -78,7 +80,6 @@ void DMA_StructInit(DMA_InitTypeDef* DMA_InitStruct);
 void DMA_Cmd(LPC_GPDMACH_TypeDef*  DMAy_Channelx, FunctionalState NewState);
 void DMA_ITConfig (LPC_GPDMACH_TypeDef* DMAy_Channelx, uint32_t DMA_IT, FunctionalState NewState);
 void DMA_ClearITPendingBit(LPC_GPDMACH_TypeDef* DMAy_Channelx, uint32_t DMA_IT);
-uint32_t DMA_EnabledChannels(void);
-bool DMA_ChannelActive (LPC_GPDMACH_TypeDef* DMAy_Channelx);
+bool DMA_ChannelActive (int channel);
 
 #endif
