@@ -9,13 +9,13 @@ void DMA_IRQHandler (void);
 uint32_t DMA_Init( uint32_t DMAMode );
 
 C12832 lcd(p5, p7, p6, p8, p11);
- 
+
 int main(void)
 {
     lcd.cls();
     lcd.locate(0,0);
     lcd.printf("DMA M2M test!");
-    
+
     char src[] = "Hello world!";
     uint8_t size = sizeof (src);
     char *dst  = (char *) malloc(size);
@@ -39,7 +39,7 @@ int main(void)
     dma_init_struct.DMA_DestInc = 1;
     dma_init_struct.DMA_TermInt = 1; // enable count interrupt:w
     dma_init_struct.DMA_TransferType = M2M;
-    
+
     LPC_SC->PCONP |= (1 << 29);    /* Enable GPDMA clock */
     DMA_init(LPC_GPDMACH0, &dma_init_struct); //initialize the channel
     LPC_GPDMA->DMACConfig = 0x01; // enable DMA and little endian
@@ -74,14 +74,12 @@ void DMA_IRQHandler (void)
 {
     uint32_t regVal;
     regVal = LPC_GPDMA->DMACIntTCStat;
-    if ( regVal )
-    {
+    if ( regVal ) {
         DMATCCount++;
         LPC_GPDMA->DMACIntTCClear |= regVal;
     }
     regVal = LPC_GPDMA->DMACIntErrStat;
-    if ( regVal )
-    {
+    if ( regVal ) {
         DMAErrCount++;
         LPC_GPDMA->DMACIntErrClr |= regVal;
     }
