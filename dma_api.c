@@ -142,8 +142,8 @@ void DMA_deinit(int channel, DMA_InitTypeDef* DMA_InitStruct){
 		GPDMA_channel->DMACCControl = 0;
 		GPDMA_channel->DMACCLLI = 0;
 		GPDMA_channel->DMACCSrcAddr = 0;
-		LPC_GPDMA->DMACIntErrClr |= 1>>channel; 
-	  LPC_GPDMA->DMACIntTCClear |= 1>>channel;
+		LPC_GPDMA->DMACIntErrClr |= 1<<channel; 
+	  LPC_GPDMA->DMACIntTCClear |= 1<<channel;
 }
 
 
