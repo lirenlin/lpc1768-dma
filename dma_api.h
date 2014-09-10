@@ -1,5 +1,5 @@
-#ifndef DMA_API_H
-#define DMA_API_H
+#ifndef MBED_DMA_API_H
+#define MBED_DMA_API_H
 
 
 
@@ -34,7 +34,7 @@ typedef enum {
     _halfword,
     _word,
     _long
-}	TransferWidth;
+}   TransferWidth;
 
 
 // DMA Trigger type.
@@ -153,7 +153,7 @@ bool isMemory (uint32_t addr);
 /**
   * @brief  Enable or disable the specified channel
   * @param  channel: the chosen channel number
-	* @param  NewState: ENABLE or DISABLE
+    * @param  NewState: ENABLE or DISABLE
   * @retval None
   */
 void DMA_Cmd(int channel, FunctionalState NewState);
@@ -162,25 +162,25 @@ void DMA_Cmd(int channel, FunctionalState NewState);
   * @brief  IRQ handler
   * @retval None
   * @Note   Define two interrupt handlers here because some devices like STM32f30x might have mutiple GPDMA or mutiple interrupt
-  *					handlers. For LPC1768, only implement one IRQ_handler
-	*/
+  *                 handlers. For LPC1768, only implement one IRQ_handler
+    */
 void DMA_IRQ_handler0(void);
 void DMA_IRQ_handler1(void);
 
 /**
-  * @brief  	Mask or unmask the interrupt on chosen channel
-	* @param 		channel: then chosen channel number
-	* @NewState	ENABLE or DISABLE
-	* @retval 	None
+  * @brief      Mask or unmask the interrupt on chosen channel
+    * @param        channel: then chosen channel number
+    * @NewState ENABLE or DISABLE
+    * @retval   None
   */
 void DMA_ITConfig (int channel, FunctionalState NewState);
 
 /**
   * @brief  Check whether ERR or FINISH interrupt on a channel has happend or not
-	* @param: channel: then chosen channel number
-	* @param: interrupt: ERR interrupt or FINISH interrupt
-	* @retval None
-	*/
+    * @param: channel: then chosen channel number
+    * @param: interrupt: ERR interrupt or FINISH interrupt
+    * @retval None
+    */
 bool DMA_ITStatus (int channel, DMA_IT interrupt);
 
 #ifdef __cplusplus
