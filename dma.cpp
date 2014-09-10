@@ -1,10 +1,9 @@
 
 #include "dma.h"
 
+namespace mbed {
 
-
-
-DMA* DMA::dma=NULL;		//To be reviewed. need to add declaretion in the cpp otherwise report "undefined symbols" at link
+DMA* DMA::dma=NULL;     //To be reviewed. need to add declaretion in the cpp otherwise report "undefined symbols" at link
 
 DMA::DMA ( int priority )
 {
@@ -23,7 +22,7 @@ int DMA::chooseFreeChannel (int channel)
     int reval=channel;
     if (channel > (channel_num-1) || channel < 0) {
         reval = 0;
-        while (1) {	//if not chosen channel, round robin checked which channel is free
+        while (1) { //if not chosen channel, round robin checked which channel is free
             if (!DMA_ChannelActive(reval))
                 return reval;
             reval++;
@@ -67,5 +66,4 @@ void DMA::wait()
 {
     while (DMA_ChannelActive(chan));
 }
-
-
+}
