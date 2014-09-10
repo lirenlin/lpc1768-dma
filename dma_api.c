@@ -68,7 +68,7 @@ void DMA_init(int channel, DMA_InitTypeDef* DMA_InitStruct)
 
     LPC_GPDMACH_TypeDef* GPDMA_channel;
     // get DMA channel address
-    GPDMA_channel =	returnChannel(channel);
+    GPDMA_channel = returnChannel(channel);
     // Calcuate transfer type according to source address and destination address
     DMA_InitStruct->DMA_TransferType = getTransferType(DMA_InitStruct->DMA_SrcAddr, DMA_InitStruct->DMA_DstAddr);
     // Reset interrupt pending bits for DMA Channel
@@ -115,7 +115,7 @@ void DMA_init(int channel, DMA_InitTypeDef* DMA_InitStruct)
     // Set destination periheral trigger. If the destination is memory, this bit is ignored. Set according low 4 bit of DMA_Trigger
     // Set transfer type: M2M, M2P, P2M, M2M
     GPDMA_channel->DMACCConfig |= ((DMA_InitStruct->DMA_TriggerSource & 0x0f) <<DMA_CCxConfig_SrcPeripheral_Pos)|    //set SrcPeripheral according low 4 bit of DMA_Trigger
-                                  ((DMA_InitStruct->DMA_TriggerDestination & 0x0f)<<DMA_CCxConfig_DestPeripheral_Pos)|		//set DstPeripheral according low 4 bit of DMA_Trigger
+                                  ((DMA_InitStruct->DMA_TriggerDestination & 0x0f)<<DMA_CCxConfig_DestPeripheral_Pos)|      //set DstPeripheral according low 4 bit of DMA_Trigger
                                   (DMA_InitStruct->DMA_TransferType<<DMA_CCxConfig_TransferType_Pos);
 
 }//end of DMA_init
@@ -128,7 +128,7 @@ void DMA_reset(int channel, DMA_InitTypeDef* DMA_InitStruct)
     LPC_SC->PCONP |= (1 << 29);
     LPC_GPDMACH_TypeDef* GPDMA_channel;
     //Get DMA channel address
-    GPDMA_channel =	returnChannel(channel);
+    GPDMA_channel = returnChannel(channel);
     GPDMA_channel->DMACCConfig = 0;
     GPDMA_channel->DMACCControl = 0;
     GPDMA_channel->DMACCLLI = 0;
@@ -177,7 +177,7 @@ void DMA_source (DMA_InitTypeDef* DMA_InitStruct, uint32_t src, int width, bool 
 
 void DMA_TransferSize ( DMA_InitTypeDef* DMA_InitStruct,int len)
 {
-    DMA_InitStruct->DMA_TransferSize = (uint32_t)(len >> DMA_InitStruct->DMA_SrcWidth) ;
+    DMA_InitStruct->DMA_TransferSize = (uint32_t)len  ;
 }
 
 
@@ -234,11 +234,11 @@ static TransferType getTransferType (uint32_t src_addr, uint32_t dst_addr )
             return M2M;    //return M2M if source is memory and destination is memory.
         else    //if destination is peripheral
             return M2P;    //return M2P if source is memory and destination is peripheral
-    } else {		//if source is peripheral
-        if(isMemory(dst_addr))		//if destination is memory
-            return P2M;		//return P2M if source is peripheral and destination is memory
-        else		//if destination is peripheral
-            return P2P;		//return P2P if source is peripheral and destination is peripheral
+    } else {        //if source is peripheral
+        if(isMemory(dst_addr))      //if destination is memory
+            return P2M;     //return P2M if source is peripheral and destination is memory
+        else        //if destination is peripheral
+            return P2P;     //return P2P if source is peripheral and destination is peripheral
     }
 }
 
@@ -255,7 +255,7 @@ void DMA_Cmd(int channel, FunctionalState NewState)
 {
     LPC_GPDMACH_TypeDef* GPDMA_channel;
     // get DMA channel address
-    GPDMA_channel =	returnChannel(channel);
+    GPDMA_channel = returnChannel(channel);
 
     if (NewState != DISABLE) {
         LPC_GPDMA->DMACConfig = 0x01;
@@ -274,7 +274,7 @@ void DMA_ITConfig (int channel, FunctionalState NewState)
 {
     LPC_GPDMACH_TypeDef* GPDMA_channel;
     // get DMA channel address
-    GPDMA_channel =	returnChannel(channel);
+    GPDMA_channel = returnChannel(channel);
 
     if (NewState != DISABLE) {
         //unmask ITC
@@ -291,5 +291,4 @@ void DMA_ITConfig (int channel, FunctionalState NewState)
         GPDMA_channel->DMACCConfig &= ~(1ul <<DMA_CCxConfig_IE_Pos);
     }
 } //end of DMA_ITConfig
-
 
