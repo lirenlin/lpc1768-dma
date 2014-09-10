@@ -1,12 +1,12 @@
 
 #include "mbed.h"
 
-#include "dma.h"
 
-#define test_m2m 0
+
+#define test_m2m 1
 #define test_m2p 1
-#define test_p2m 0
-#define test_p2p 0
+#define test_p2m 1
+#define test_p2p 1
 
 
 DigitalOut myled1(LED1);
