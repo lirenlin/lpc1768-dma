@@ -292,3 +292,30 @@ void DMA_ITConfig (int channel, FunctionalState NewState)
     }
 } //end of DMA_ITConfig
 
+void (*dma_irq_finish[8])(void);
+void (*dma_irq_error[8])(void);
+
+void  DMA_IRQ_handler( void)
+{
+    //only call the attached function when certain interrupt happened on the right channel
+    unsigned i = 0;
+    for (i; i < 8; ++i)
+    {
+        if (DMA_ITStatus(i, ERR) && dma_irq_error[i])
+            dma_irq_error[i]();
+        else if (DMA_ITStatus(i, FINISH) && dma_irq_finish[i])
+            dma_irq_finish[i]();
+    }
+    DMA_IRQ_handler0 (); // the DMA handler implemented by per platform
+}
+
+void DMA_IRQ_set (int channel, int status, void *ptr(void))
+{
+    assert (channel <= 8 && channel>=0);
+    assert (status == ERR || status == FINISH);
+
+    if (status == ERR)
+        dma_irq_error[channel] = ptr;
+    else if (status == FINISH)
+        dma_irq_finish[channel] = ptr;
+}

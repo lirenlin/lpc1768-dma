@@ -183,6 +183,9 @@ void DMA_ITConfig (int channel, FunctionalState NewState);
     */
 bool DMA_ITStatus (int channel, DMA_IT interrupt);
 
+void DMA_IRQ_handler(void);
+void DMA_IRQ_set (int channel, int status, void *ptr(void));
+
 #ifdef __cplusplus
 }
 #endif
