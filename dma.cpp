@@ -54,3 +54,4 @@ void DMA::wait()
     while (DMA_ChannelActive(chan));
 }
 }
+
